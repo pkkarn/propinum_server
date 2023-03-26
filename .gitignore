@@ -1,0 +1,4 @@
+node_modules
+.env
+jwtRS256*
+package-lock.json
