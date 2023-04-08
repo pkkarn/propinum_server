@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const connectDB = require('./db')
 const auth = require('./auth')
+const api = require('./api')
 require('dotenv').config();
 
 
@@ -16,6 +17,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/auth', auth)
+app.use('/api', api)
 
 const PORT = process.env.PORT || 3000;
 

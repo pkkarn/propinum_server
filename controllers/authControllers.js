@@ -36,7 +36,7 @@ exports.signUpAndLogin = async (req, res, next) => {
     const token = jwt.sign({ user_id: user._id }, privateKey, { algorithm: 'RS256', expiresIn: '1y' });
 
     // Send the JWT token back
-    res.status(200).json({ userToken: token });
+    res.status(200).json({ userToken: token, user });
   } catch (error) {
     next(error);
   }
@@ -45,4 +45,8 @@ exports.signUpAndLogin = async (req, res, next) => {
 exports.protectedData = async (req, res) => {
   console.log(req.user)
   res.status(200).send({ 'here is your token': { token: req.headers['authorization']}})
+}
+
+exports.userDetail = async (req, res) => {
+  res.status(200).send(req.user)
 }
