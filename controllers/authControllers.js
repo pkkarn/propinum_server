@@ -8,9 +8,6 @@ exports.signUpAndLogin = async (req, res, next) => {
   try {
     // Extract access token from headers
     const accessToken = req.headers.authorization.split(' ')[1];
-
-    console.log({ auth:  req.headers})
-
     // Verify the access token
     const tokenInfo = await verifyToken(accessToken);
 

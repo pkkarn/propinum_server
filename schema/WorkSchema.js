@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+/** This one used to store user Work Detail or experience they might have */
 const WorkSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -12,19 +13,24 @@ const WorkSchema = new mongoose.Schema({
     author: {
         type: mongoose.Types.ObjectId,
         ref: 'users'
+    },
+    workBio: {
+        type: String,
     }
 }, {
     timestamps: true
 })
 
 
-WorkSchema.pre('save', (next) => {
+WorkSchema.pre('save', async function (next) {
     const now = new Date();
     this.updatedAt = now;
     if(!this.createdAt) {
-        this.createdAt = Date;
+        this.createdAt = now;
     }
-    next()
+    const author = await this.model('user').findById(this.author);
+    this.workBio = `Hi, I am ${author ? author.username : ''} this is some of the things about me ${this.content}`;
+    next();
 })
 
 WorkSchema.post('save', (doc)=> {

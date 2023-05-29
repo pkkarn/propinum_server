@@ -12,6 +12,11 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+
+    credits: {
+        type: Number,
+        default: 10
+    }
 })
 
 module.exports = mongoose.model('user', UserSchema);
