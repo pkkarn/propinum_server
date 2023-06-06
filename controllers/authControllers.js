@@ -3,13 +3,33 @@ const verifyToken = require('../modules/verifyToken')
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
+const querystring = require('querystring');
+require('dotenv').config();
 
 exports.signUpAndLogin = async (req, res, next) => {
   try {
     // Extract access token from headers
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const authorization_code = req.headers.authorization.split(' ')[1];
+
+      // Define the params
+      const params = {
+        code: authorization_code,
+        redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET_ID,
+        grant_type: 'authorization_code'
+      };
+  
+      // Send POST request to Google's token endpoint
+      const { data } = await axios.post('https://oauth2.googleapis.com/token', querystring.stringify(params));
+  
+      // Extract tokens from response data
+      const { access_token } = data;
+      // const { access_token, id_token, refresh_token } = data;
     // Verify the access token
-    const tokenInfo = await verifyToken(accessToken);
+    const tokenInfo = await verifyToken(access_token);
+
 
     if (!tokenInfo.email) {
       return res.status(400).json({ error: 'Email not found in token' });
