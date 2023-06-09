@@ -42,10 +42,7 @@ exports.getWork = async (req, res, next) => {
         /**
          * @query { workId }
          */
-        console.log(req.params)
-
-        const workDetail = await workSchema.findById({ _id: req.params.workId });
-        
+        const workDetail = await workSchema.findById(req.params.workId).populate('author')
          res.status(200).send(workDetail)
     } catch(err) {
          res.status(500).send(err)

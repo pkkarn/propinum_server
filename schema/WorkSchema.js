@@ -12,7 +12,7 @@ const WorkSchema = new mongoose.Schema({
     },
     author: {
         type: mongoose.Types.ObjectId,
-        ref: 'users'
+        ref: 'user'
     },
     workBio: {
         type: String,
