@@ -26,7 +26,7 @@ exports.createWork = async (req, res, next) => {
 // Create work
 exports.getAllSavedWork = async (req, res, next) => {
     try {
-        const allWork = await workSchema.find({ author: req.user._id }).select(['author', 'title']);
+        const allWork = await workSchema.find({ author: req.user._id }).select(['title', 'content']);
 
          res.status(200).send({
             saved_works: allWork,
